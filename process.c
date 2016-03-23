@@ -5,17 +5,27 @@
 #include <stdio.h>
 #include <string.h>
 #include "libfreenect.h"
+#include "util.h"
 
-#define RES FREENECT_RESOLUTION_MEDIUM
-#define RES_W 640
-#define RES_H 320
-
-
+/**
+ * this callback called for each depth image captured
+ * 
+ * @param dev device id pointer
+ * @param data depth data pointer cast it to unsigned int
+ * @param timestap timestap of the image capturation
+ * @return void
+ */
 void depth_cb(freenect_device* dev, void* data, uint32_t timestamp)
 {
 	uint16_t *depth = (uint16_t*)data;
-	uint32_t x,y;
+	uint16_t x,y,p;
 	x = 0;
 	y = RES_H/2;
-	printf("\rvalue mid hahaaha is %d\n", depth[640*160-160]);
+	
+	for (x=0;x<(RES_W);x+=1)
+	{
+		p = RES_W*(y-1) + x;
+		printf("%d ", depth[p]);
+	}
 }
+

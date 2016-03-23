@@ -28,16 +28,13 @@
 #include <stdio.h>
 #include <string.h>
 #include "libfreenect.h"
+#include "util.h"
 
 #ifndef SIGQUIT // win32 compat
 	#define SIGQUIT SIGTERM
 #endif
 
-#define RES FREENECT_RESOLUTION_MEDIUM
-#define RES_W 640
-#define RES_H 320
-
-//-- define in process.c
+//-- defined in process.c
 void depth_cb(freenect_device* dev, void* data, uint32_t timestamp);
 
 void video_cb(freenect_device* dev, void* data, uint32_t timestamp){}
@@ -91,13 +88,13 @@ int main(int argc, char** argv)
 	}
 
 	// Set depth and video modes.
-	ret = freenect_set_depth_mode(fn_dev, freenect_find_depth_mode(FREENECT_RESOLUTION_MEDIUM, FREENECT_DEPTH_MM));
+	ret = freenect_set_depth_mode(fn_dev, freenect_find_depth_mode(RES, FREENECT_DEPTH_MM));
 	if (ret < 0)
 	{
 		freenect_shutdown(fn_ctx);
 		return ret;
 	}
-	ret = freenect_set_video_mode(fn_dev, freenect_find_video_mode(FREENECT_RESOLUTION_MEDIUM, FREENECT_VIDEO_RGB));
+	ret = freenect_set_video_mode(fn_dev, freenect_find_video_mode(RES, FREENECT_VIDEO_RGB));
 	if (ret < 0)
 	{
 		freenect_shutdown(fn_ctx);
